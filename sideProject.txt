@@ -1,0 +1,9 @@
+Covid Dashboard - Side Project
+
+Initial Functionality
+Ask user to input a value (State), and return the number of current covid cases for that state. Data will be read from a .csv file. 
+Initially file will be static, but eventually would like to have ability automate the download process to have fresh data from https://api.covidtracking.com/v1/states/current.csv.
+
+Architecture:
+Structure in a way that functionality can be added in phases. For example, phase 1 will only ready out state case number data, but maybe phase two would be a 7 day trend for a given state. 
+
