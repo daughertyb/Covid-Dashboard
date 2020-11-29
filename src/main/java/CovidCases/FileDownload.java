@@ -41,7 +41,6 @@ public class FileDownload {
 		File currentCase = new File("current_state.csv");
 		Scanner scanner1 = new Scanner(currentCase);
 		int lineCounter1 = 0;
-		
 
 		// Data from Covid state case file.
 		while (scanner1.hasNextLine()) {
@@ -58,17 +57,16 @@ public class FileDownload {
 					stateList.add(newState);
 				}
 			}
-			
+
 			lineCounter1++;
 		}
 	}
-		
-		public void createPopData() throws FileNotFoundException {
-			File currentPop = new File("population.csv");
-			Scanner scanner2 = new Scanner(currentPop);
-			int lineCounter2 = 0;
-			
-			
+
+	public void createPopData() throws FileNotFoundException {
+		File currentPop = new File("population.csv");
+		Scanner scanner2 = new Scanner(currentPop);
+		int lineCounter2 = 0;
+
 		// Data from population file.
 		while (scanner2.hasNextLine()) {
 
@@ -84,8 +82,10 @@ public class FileDownload {
 					populationList.add(newPop);
 				}
 			}
+
+			lineCounter2++;
+
 		}
 
-		lineCounter2++;
 	}
-	}
+}

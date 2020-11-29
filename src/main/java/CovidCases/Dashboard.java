@@ -11,9 +11,7 @@ public class Dashboard {
 		// Call a new file and populate states list.
 		FileDownload stateLevelData = new FileDownload();
 		stateLevelData.refreshCovidStateFile();
-		stateLevelData.refreshPopulationStateFile();
 		stateLevelData.createCaseData();
-		stateLevelData.createPopData();
 
 		// Take user input and print case data.
 		System.out.println("Welcome To The Covid Information Center!");
@@ -26,16 +24,18 @@ public class Dashboard {
 				System.out.println("Positive cases In " + state.getState() + " Are "
 						+ String.format("%,.0f", Double.parseDouble(state.getStateCases())) + " " + "Hospitalized: "
 						+ String.format("%,.0f", Double.parseDouble(state.getStateHospitalized())));
-				
+
 				population();
 			}
 
 		}
 	}
 
-	public static void population() {
+	public static void population() throws IOException {
 		FileDownload stateLevelData = new FileDownload();
-		System.out.println("Please Enter A State To View Current Population >>"); //program seems to be terminating in the console about here.
+		stateLevelData.refreshPopulationStateFile();
+		stateLevelData.createPopData();
+		System.out.println("Please Enter A State To View Current Population >>");
 		Scanner scanner = new Scanner(System.in);
 		String userInput = scanner.nextLine();
 
