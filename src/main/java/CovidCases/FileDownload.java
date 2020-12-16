@@ -93,7 +93,7 @@ public class FileDownload {
 
 	}
 
-	public void caseData(String userInput) {
+	public void caseData(String userInput) throws IOException {
 		for (DataHub state : stateList) {
 			if (state.getState().equals(userInput)) {
 				System.out.println("Total Positive Cases: "
@@ -107,6 +107,7 @@ public class FileDownload {
 							"Total Positive Cases: " + String.format("%,.0f", Double.parseDouble(state.getStateCases()))
 									+ "\n" + "Hospitalized: "
 									+ String.format("%,.0f", Double.parseDouble(state.getStateHospitalized())));
+
 				}
 
 			}
@@ -116,12 +117,24 @@ public class FileDownload {
 	}
 
 	public void population(String userInput) throws IOException {
-		refreshPopulationStateFile();
-		createPopData();
 
 		for (DataHub pop : populationList) {
 			if (pop.getFullState().equals(userInput)) {
-				System.out.println("Population: " + divideTwoStrings(pop.getStateCases(), pop.getPopulation()));
+
+				String stateCode = getStateCode(pop.getState());
+
+				// 3. loop through stateList and find match for step 2.
+				for (DataHub state : stateList) {
+					if (state.toString() == stateCode) {
+
+						System.out.println("Population: " + divideTwoStrings(pop.getStateCases(), pop.getPopulation()));
+					}
+				}
+				// 4. If there is a match then extract the corresponding number of cases from
+				// stateCases.
+
+				// 5. pass the result of #4 to the first argument in divideTwoStrings(....)
+
 			} else if (userInput.length() < 3) {
 				userInput = getFullState(userInput);
 				if (pop.getFullState().equals(userInput)) {
@@ -287,6 +300,8 @@ public class FileDownload {
 	}
 
 	public static String divideTwoStrings(String string1, String string2) {
+		System.out.println(string1);
+		System.out.println(string2);
 		BigDecimal a = new BigDecimal(string1);
 		BigDecimal b = new BigDecimal(string2);
 		return a.divide(b, a.scale(), RoundingMode.HALF_UP).toString();

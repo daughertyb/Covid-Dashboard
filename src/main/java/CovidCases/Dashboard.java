@@ -12,6 +12,8 @@ public class Dashboard {
 		FileDownload data = new FileDownload();
 		data.refreshCovidStateFile();
 		data.createCaseData();
+		data.refreshPopulationStateFile();
+		data.createPopData();
 
 		// Take user input and print case data.
 		System.out.println("Welcome To The Covid Information Center!");
