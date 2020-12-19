@@ -11,6 +11,7 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -117,30 +118,29 @@ public class FileDownload {
 	}
 
 	public void population(String userInput) throws IOException {
+		String stateCases = null;
 
 		for (DataHub pop : populationList) {
 			if (pop.getFullState().equals(userInput)) {
 
-				String stateCode = getStateCode(pop.getState());
+				String stateCode = getStateCode(pop.getFullState());
 
-				// 3. loop through stateList and find match for step 2.
 				for (DataHub state : stateList) {
-					if (state.toString() == stateCode) {
-
-						System.out.println("Population: " + divideTwoStrings(pop.getStateCases(), pop.getPopulation()));
+					if (state.getState().equals(stateCode)) {
+						stateCases = state.getStateCases();
 					}
 				}
-				// 4. If there is a match then extract the corresponding number of cases from
-				// stateCases.
 
-				// 5. pass the result of #4 to the first argument in divideTwoStrings(....)
+				System.out.println(divideTwoStrings(stateCases, pop.getPopulation()) + "% of " + pop.getFullState()
+						+ "'s population has tested postive for Covid-19");
 
 			} else if (userInput.length() < 3) {
 				userInput = getFullState(userInput);
 				if (pop.getFullState().equals(userInput)) {
-					System.out.println("Population: " + divideTwoStrings(pop.getStateCases(), pop.getPopulation()));
-				}
+					System.out.println(divideTwoStrings(pop.getStateCases(), pop.getPopulation()) + "% of "
+							+ pop.getFullState() + "'s population has tested postive for Covid-19");
 
+				}
 			}
 		}
 	}
@@ -299,11 +299,12 @@ public class FileDownload {
 		return STATE_MAP.get(stateCode);
 	}
 
-	public static String divideTwoStrings(String string1, String string2) {
-		System.out.println(string1);
-		System.out.println(string2);
-		BigDecimal a = new BigDecimal(string1);
-		BigDecimal b = new BigDecimal(string2);
-		return a.divide(b, a.scale(), RoundingMode.HALF_UP).toString();
+	public static double divideTwoStrings(String string1, String string2) {
+		double a = Double.parseDouble(string1);
+		double b = Double.parseDouble(string2);
+		Long c = (long) 100;
+		DecimalFormat twoDForm = new DecimalFormat("#.##");
+		double percent = a / b;
+		return Double.valueOf(twoDForm.format(percent * c));
 	}
 }
